@@ -5,20 +5,21 @@
 #include "G4VisManager.hh"
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
-// #include "G4UnitsTable.hh"
 #include "construction.hh"
-#include "physics.hh"
 #include "action.hh"
 
 int main(int argc, char** argv)
 {
-	G4RunManager *runManager = new G4RunManager();
+  G4RunManager *runManager = new G4RunManager();
 
   runManager->SetUserInitialization(new MyDetectorConstruction());
-  runManager->SetUserInitialization(new MyPhysicsList());
+  
+  auto physicsList = new FTFP_BERT;
+  runManager->SetUserInitialization(physicsList);
+
   runManager->SetUserInitialization(new MyActionInitialization());
 
-	runManager->Initialize();
+  runManager->Initialize();
 
   G4UIExecutive *ui = nullptr;
   if(argc==1){
